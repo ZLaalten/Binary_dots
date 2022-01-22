@@ -28,6 +28,7 @@ router.post('/',(req, res, next)=>{
 
 router.post('/post_all', (req, res, next) => {
     let datas = req.body;
+    console.log(datas);
     async.each(datas, function (data, callback) {
         let newData = new Data(data);
         newData.save((err, data)=>{
