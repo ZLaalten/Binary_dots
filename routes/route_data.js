@@ -1,6 +1,7 @@
 const express = require('express');
 const extend = require('extend');
 const router = express.Router();
+const async = require('async');
 
 const Data = require('../models/data');
 
@@ -24,6 +25,25 @@ router.post('/',(req, res, next)=>{
         }
     })
 })
+
+router.post('/post_all', (req, res, next) => {
+    let datas = req.body;
+    async.each(datas, function (data, callback) {
+        Data.findOneAndUpdate( data, { upsert: true }, function (err, doc) {
+            if(err){
+             return callback(err);
+            }
+            return callback();
+        });
+    }, function(err){
+        if (err) {
+            res.status(403).json({ msg: 'Error in updating data', data: req.body, status: err });
+        }
+        else {
+            res.json({ msg: 'Successfully posted', data: req.body, status: 'success' });
+        }
+    });
+});
 
 //deleting datas
 router.delete('/',(req, res, next)=>{
