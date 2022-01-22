@@ -9,6 +9,10 @@ const DataSchema = mongoose.Schema({
         type : String, 
         required : true
     },
+    signal_strength : {
+        type : String, 
+        required : false
+    },
     timestamp : {
         type : String, 
         required : false
