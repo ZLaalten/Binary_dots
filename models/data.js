@@ -5,7 +5,7 @@ const DataSchema = mongoose.Schema({
         type : String,
         required : true
     },
-    tag_id : {
+    beacon_id : {
         type : String, 
         required : true
     },
