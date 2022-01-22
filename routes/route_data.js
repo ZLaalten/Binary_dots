@@ -2,8 +2,43 @@ const express = require('express');
 const extend = require('extend');
 const router = express.Router();
 const async = require('async');
+const mqtt = require('mqtt')
+const client  = mqtt.connect('mqtt://localhost')
 
 const Data = require('../models/data');
+
+client.on('connect', function () {
+    console.log("MQTT client connected")
+    client.subscribe('wifi', function (err) {
+    })
+  })
+  
+  client.on('message', function (topic, message) {
+    // message is Buffer
+    datas = message.toString()
+    client.end()
+    console.log(datas);
+    datas = JSON.parse(datas);
+    async.each(datas, function (data, callback) {
+        let newData = new Data(data);
+        newData.save((err, data)=>{
+            if(err){
+                return callback(error);
+            }
+            else{
+                return callback();
+            }
+        })
+    }, function(err){
+        if (err) {
+            console.log("Error " + err);
+        }
+        else {
+            console.log("Success");
+        }
+    });
+
+  })
 
 // getting datas
 router.get('/get_all', (req, res, next)=>{
