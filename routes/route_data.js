@@ -29,12 +29,15 @@ router.post('/',(req, res, next)=>{
 router.post('/post_all', (req, res, next) => {
     let datas = req.body;
     async.each(datas, function (data, callback) {
-        Data.findOneAndUpdate( data, { upsert: true }, function (err, doc) {
+        let newData = new Data(data);
+        newData.save((err, data)=>{
             if(err){
-             return callback(err);
+                return callback(error);
             }
-            return callback();
-        });
+            else{
+                return callback();
+            }
+        })
     }, function(err){
         if (err) {
             res.status(403).json({ msg: 'Error in updating data', data: req.body, status: err });
