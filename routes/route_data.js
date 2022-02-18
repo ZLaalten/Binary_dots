@@ -11,7 +11,7 @@ const client  = mqtt.connect('mqtt://localhost',{
     clientId,
     will : {
         topic : clientId,
-        payload : "disconnected from client" + moment().format("ddd, DD MM YYYY HH:mm:ss"),
+        payload : "disconnected from client : " + moment().format("ddd, DD MM YYYY HH:mm:ss"),
         retain : "true",
     }
 });
