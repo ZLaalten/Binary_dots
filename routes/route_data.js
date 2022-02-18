@@ -1,5 +1,6 @@
 const express = require('express');
 const extend = require('extend');
+const moment = require('moment');
 const router = express.Router();
 const async = require('async');
 const mqtt = require('mqtt');
@@ -10,7 +11,7 @@ const client  = mqtt.connect('mqtt://localhost',{
     clientId,
     will : {
         topic : clientId,
-        payload : "disconnected from client",
+        payload : "disconnected from client" + moment().format("MM ddd, YYYY HH:mm:ss"),
         retain : "true",
     }
 });
@@ -22,7 +23,8 @@ client.on('connect', function () {
     console.log("MQTT client connected")
     client.subscribe('wifi', function (err) {
     })
-    client.publish(clientId, "connected", { qos: 0, retain: true }, (error) => {
+    let t_conn = moment().format("MM ddd, YYYY HH:mm:ss")
+    client.publish(clientId, "connected : " + t_conn , { qos: 0, retain: true }, (error) => {
         if (error) {
           console.error(error)
         }
