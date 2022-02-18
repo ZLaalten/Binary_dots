@@ -2,8 +2,18 @@ const express = require('express');
 const extend = require('extend');
 const router = express.Router();
 const async = require('async');
-const mqtt = require('mqtt')
-const client  = mqtt.connect('mqtt://localhost')
+const mqtt = require('mqtt');
+const clientId = "binaryScript";
+
+
+const client  = mqtt.connect('mqtt://localhost',{
+    clientId,
+    will : {
+        topic : clientId,
+        payload : "disconnected from client"
+    }
+});
+
 
 const Data = require('../models/data');
 
@@ -11,6 +21,11 @@ client.on('connect', function () {
     console.log("MQTT client connected")
     client.subscribe('wifi', function (err) {
     })
+    client.publish(clientId, "connected", { qos: 0, retain: false }, (error) => {
+        if (error) {
+          console.error(error)
+        }
+      })
   })
   
   client.on('message', function (topic, message) {
