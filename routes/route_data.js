@@ -11,7 +11,7 @@ const client  = mqtt.connect('mqtt://localhost',{
     clientId,
     will : {
         topic : clientId,
-        payload : "disconnected from client" + moment().format("MM ddd, YYYY HH:mm:ss"),
+        payload : "disconnected from client" + moment().format("ddd, DD MM YYYY HH:mm:ss"),
         retain : "true",
     }
 });
@@ -23,7 +23,7 @@ client.on('connect', function () {
     console.log("MQTT client connected")
     client.subscribe('wifi', function (err) {
     })
-    let t_conn = moment().format("MM ddd, YYYY HH:mm:ss")
+    let t_conn = moment().format("ddd, DD MM YYYY HH:mm:ss")
     client.publish(clientId, "connected : " + t_conn , { qos: 0, retain: true }, (error) => {
         if (error) {
           console.error(error)
