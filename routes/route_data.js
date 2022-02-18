@@ -10,7 +10,8 @@ const client  = mqtt.connect('mqtt://localhost',{
     clientId,
     will : {
         topic : clientId,
-        payload : "disconnected from client"
+        payload : "disconnected from client",
+        retain : "true",
     }
 });
 
