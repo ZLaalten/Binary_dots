@@ -22,7 +22,7 @@ client.on('connect', function () {
     console.log("MQTT client connected")
     client.subscribe('wifi', function (err) {
     })
-    client.publish(clientId, "connected", { qos: 0, retain: false }, (error) => {
+    client.publish(clientId, "connected", { qos: 0, retain: true }, (error) => {
         if (error) {
           console.error(error)
         }
