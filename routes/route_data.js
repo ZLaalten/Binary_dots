@@ -34,7 +34,7 @@ client.on('connect', function () {
   client.on('message', function (topic, message) {
     // message is Buffer
     datas = message.toString()
-    client.end()
+    // client.end()
     console.log(datas);
     datas = JSON.parse(datas);
     async.each(datas, function (data, callback) {
